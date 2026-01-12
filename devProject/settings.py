@@ -26,8 +26,9 @@ SECRET_KEY = os.environ.get('SECRET_KEY')
 # 変更: 環境変数(.env)が'True'の時だけデバッグモードにする（本番はFalseになる）
 DEBUG = os.environ.get('DEBUG') == 'True'
 
-# 変更: 本番サーバー(Waitress)経由でのアクセスを許可
-ALLOWED_HOSTS = ['localhost', '127.0.0.1']
+# [cite_start]変更: Renderで発行されたあなたのURLを指定 [cite: 837-838]
+# ※ https:// や最後の / は含めず、ドメイン部分だけを書きます
+ALLOWED_HOSTS = ['testproject-6m6t.onrender.com', 'localhost', '127.0.0.1']
 
 
 # Application definition
@@ -45,6 +46,8 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
+    # 追加: RenderでCSSを表示するために必要 (requirements.txtにあるwhitenoiseを有効化)
+    "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -122,6 +125,9 @@ STATIC_URL = "static/"
 
 # 追加: collectstaticコマンドで静的ファイルを集める場所
 STATIC_ROOT = BASE_DIR / 'staticfiles'
+
+# 追加: WhiteNoiseを使って静的ファイルを配信する設定
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
