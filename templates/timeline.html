@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h2>タイムライン</h2>
+  
+  <div class="row">
+    <div class="col-md-8">
+      {% for post in posts %}
+        <div class="card mb-3">
+          <div class="card-body">
+            <h5 class="card-title">{{ post.author.username }}</h5>
+            <p class="card-text">{{ post.content }}</p>
+            <p class="card-text"><small class="text-muted">{{ post.created_at }}</small></p>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+{% endblock %}
